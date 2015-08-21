@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.springsource.net.sf.json-2.2.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../sabNZBClient/lib/com.springsource.net.sf.json-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
