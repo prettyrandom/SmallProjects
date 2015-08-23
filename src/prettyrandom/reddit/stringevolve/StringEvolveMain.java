@@ -17,13 +17,13 @@ public class StringEvolveMain {
         Scanner scanner = new Scanner( System.in );
         System.out.println( "Please input a phrase: ");
         String text = scanner.nextLine();
-        text = text.replaceAll("\\s", "");
+//        text = text.replaceAll("\\s", "");
         System.out.println();
 
         for( int i=0; i<10; i++ ){
             Thread t = new Thread( new StringEvolver( text, threads ));
-            t.start();
             threads.add( t );
+            t.start();
         }
     }
 }

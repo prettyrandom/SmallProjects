@@ -1,6 +1,7 @@
 package prettyrandom.reddit.stringevolve;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -13,8 +14,12 @@ public class StringEvolver implements Runnable {
     private String targetWord;
     private String evolvingWord = "";
 
-    private Random random = new Random();
+    public static Random random = new Random();
     private ArrayList<Thread> threads;
+
+    private LinkedList<String> generations = new LinkedList<>();
+
+    private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
 
     public StringEvolver( String target, ArrayList<Thread> threads ){
         targetWord = target;
@@ -28,23 +33,33 @@ public class StringEvolver implements Runnable {
         }
     }
 
-    private char getRandomCharacter(){
-        int min = 'a';
-        int max = 'z';
-
-        return (char) ( random.nextInt(max - min + 1) + min );
+    public static char getRandomCharacter(){
+        return ALPHABET.charAt(random.nextInt(ALPHABET.length()));
     }
 
     private void evolve(){
-        int chosenChar = random.nextInt( evolvingWord.length() );
-        evolvingWord = evolvingWord.substring(0, chosenChar) + getRandomCharacter() + evolvingWord.substring( chosenChar+1 );
         generation++;
+        ArrayList<EvolvedString> strings = new ArrayList<>();
+        for(int i=0; i<50; i++)
+            strings.add( new EvolvedString(evolvingWord) );
+        double maxSimilarity = 0;
+        String evolvedWord = evolvingWord;
+        for( EvolvedString s : strings ){
+            double similarity = s.similarity( targetWord );
+            if( maxSimilarity < similarity ) {
+                maxSimilarity = similarity;
+                evolvedWord = s.getEvolvedWord();
+            }
+        }
+        evolvingWord = evolvedWord;
+        generations.add( evolvedWord );
     }
 
     private boolean finalForm(){
         if( ! evolvingWord.equals( targetWord ) )
             return false;
-        System.out.println("Evolver " + Thread.currentThread().getId() + " evolved the word " + evolvingWord + " after " + generation + " generations!");
+        System.out.println("Evolver " + Thread.currentThread().getId() + " evolved the phrase \"" + evolvingWord + "\" after " + generation + " generations!");
+        System.out.println( generations );
         return true;
     }
 
