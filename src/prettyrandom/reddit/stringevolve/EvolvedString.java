@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Random;
 
 /**
- * @author philla
+ * @author prettyrandom
  * @version 1.0
  */
 public class EvolvedString {

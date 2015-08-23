@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * @author philla
+ * @author prettyrandom
  * @version 1.0
  *
  * Better only use short phrases!

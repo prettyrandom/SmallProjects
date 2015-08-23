@@ -1,11 +1,12 @@
 package prettyrandom.reddit.stringevolve;
 
+import org.apache.commons.collections.buffer.CircularFifoBuffer;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * @author philla
+ * @author prettyrandom
  * @version 1.0
  */
 public class StringEvolver implements Runnable {
@@ -17,7 +18,7 @@ public class StringEvolver implements Runnable {
     public static Random random = new Random();
     private ArrayList<Thread> threads;
 
-    private LinkedList<String> generations = new LinkedList<>();
+    private CircularFifoBuffer generations = new CircularFifoBuffer(1000);
 
     private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
 
@@ -52,14 +53,14 @@ public class StringEvolver implements Runnable {
             }
         }
         evolvingWord = evolvedWord;
-        generations.add( evolvedWord );
+        generations.add(evolvedWord);
     }
 
     private boolean finalForm(){
         if( ! evolvingWord.equals( targetWord ) )
             return false;
         System.out.println("Evolver " + Thread.currentThread().getId() + " evolved the phrase \"" + evolvingWord + "\" after " + generation + " generations!");
-        System.out.println( generations );
+        System.out.println( "Last "+generations.size()+" generations: "+generations);
         return true;
     }
 
